@@ -1,15 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Sign In</title>
-</head>
-<body>
-    <form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
+{% extends 'web/base.html' %}
+{% block content %}
 
-    <button>Sign In</button>
-    </form>
-</body>
-</html>
+    {% if is_success %}
+        <p><b>Success</b></p>
+    {% else %}
+        <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button>Sign In</button>
+        </form>
+    {% endif %}
+
+{% endblock %}

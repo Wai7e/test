@@ -2,9 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Books</title>
 </head>
 <body>
+    <nav>
+        <a href="{% url 'main' %}">Главная</a>
+        {% if user.is_anonymous %}
+            <a href="{% url 'sign' %}">Регистрация</a>
+            <a href="{% url 'auth' %}">Войти</a>
+        {% else %}
+            <a href="{% url 'add' %}">Добавить книгу</a>
+        {% endif %}
+    </nav>
+
+    {% block content %}{% endblock %}
 
 </body>
 </html>

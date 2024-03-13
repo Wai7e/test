@@ -1,4 +1,8 @@
 from django import forms
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 class AddBookForm(forms.Form):
@@ -13,10 +17,7 @@ class AddBookForm(forms.Form):
         return cleaned_data
 
 
-class RegisterForm(forms.Form):
-    email = forms.EmailField()
-    user_name = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput())
+class RegisterForm(forms.ModelForm):
     password2 = forms.CharField(widget=forms.PasswordInput())
 
     def clean(self):
@@ -24,3 +25,12 @@ class RegisterForm(forms.Form):
         if cleaned_data['password'] != cleaned_data['password2']:
             self.add_error("password", "password incorrect")
         return cleaned_data
+
+    class Meta:
+        model = User
+        fields = ("email", 'username', "password", "password2")
+
+
+class AuthForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput())
