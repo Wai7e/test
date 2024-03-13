@@ -4,16 +4,18 @@ from datetime import datetime
 
 # Create your views here.
 from web.forms import AddBookForm, RegisterForm, AuthForm
+
+from django.contrib.auth import get_user_model, authenticate, login, logout
+
 from web.models import Book
-from django.contrib.auth import get_user_model, authenticate, login
 
 User = get_user_model()
 
 
 def main_view(request):
-    year = datetime.now().year
+    book = Book.objects.all()
     return render(request, "web/main.html", {
-        "year": year
+        "books": book
     })
 
 
@@ -52,9 +54,13 @@ def auth_view(request):
 def book_add_view(request):
     form = AddBookForm()
     if request.method == 'POST':
-        form = AddBookForm(data=request.POST)
+        form = AddBookForm(data=request.POST, initial={"user": request.user})
         if form.is_valid():
-            book = Book(title=form.cleaned_data["name"], author=form.cleaned_data["author"],
-                        category=form.cleaned_data["category"])
-            book.save()
+            form.save()
+            return redirect('main')
     return render(request, "web/book_add.html", {'form': form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("main")

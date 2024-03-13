@@ -5,6 +5,17 @@
 
     </p>Вы авторизованы как <b> {{ user.username }} </b></p>
 
+    </ul>
+        {% for book in books %}
+            <li>
+                <b>{{ book.title }}</b>
+                {{ book.author }}
+                {{ book.category }}
+            </li>
+        {% endfor %}
+    </ul>
+
     {% endif %}
+
 
 {% endblock %}

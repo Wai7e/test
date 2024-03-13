@@ -5,6 +5,7 @@
   <title>Books</title>
 </head>
 <body>
+    <h1>Хуй знает</h1>
     <nav>
         <a href="{% url 'main' %}">Главная</a>
         {% if user.is_anonymous %}
@@ -12,6 +13,7 @@
             <a href="{% url 'auth' %}">Войти</a>
         {% else %}
             <a href="{% url 'add' %}">Добавить книгу</a>
+            <a href="{% url 'logout' %}">Выйти</a>
         {% endif %}
     </nav>
 

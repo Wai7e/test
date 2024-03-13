@@ -1,20 +1,29 @@
 from django import forms
 from django.contrib.auth import get_user_model
 
+from web.models import Book
 
 User = get_user_model()
 
 
-class AddBookForm(forms.Form):
-    name = forms.CharField(max_length=256)
+class AddBookForm(forms.ModelForm):
+    title = forms.CharField(max_length=256)
     author = forms.CharField(max_length=256)
     category = forms.CharField(max_length=256)
 
+    def save(self, commit=True):
+        self.instance.user = self.initial['user']
+        return super().save(commit)
+
     def clean(self):
         cleaned_data = super().clean()
-        if cleaned_data['name'] == cleaned_data['author'] == cleaned_data['category']:
-            self.add_error("name", "все поля одинаковы!")
+        if cleaned_data['title'] == cleaned_data['author'] == cleaned_data['category']:
+            self.add_error("title", "все поля одинаковы!")
         return cleaned_data
+
+    class Meta:
+        model = Book
+        fields = ('title', 'author', 'category')
 
 
 class RegisterForm(forms.ModelForm):
